@@ -1,14 +1,14 @@
 #!/bin/sh
 	
 ########################################
-# Name:
+# Name: Set SoftEtherVPN
 #
-# about:
+# about: easy to set softethervpn
 #
-# Usage:
+# Usage: softether.sh {setup|status|disconnect|delete}
 #
-# Author:
-# Date:
+# Author: Teppei Fukuda
+# Date: 2014/10/08
 ########################################
 
 PROGNAME=`basename $0`
@@ -42,8 +42,29 @@ EOF
     rm $BASEDIR/status.txt
 }
 
+disconnect() {
+    cat << EOF > $BASEDIR/status.txt
+AccountDisconnect $ACCOUNT
+AccountList
+EOF
+    /usr/local/vpnclient/vpncmd /client localhost /in:$BASEDIR/status.txt
+    rm $BASEDIR/status.txt
+}
+
+delete() {
+    cat << EOF > $BASEDIR/status.txt
+AccountDisconnect $ACCOUNT
+AccountDelete $ACCOUNT
+AccountList
+NicDelete $NIC
+NicList
+EOF
+    /usr/local/vpnclient/vpncmd /client localhost /in:$BASEDIR/status.txt
+    rm $BASEDIR/status.txt
+}
+
 usage() {
-  echo "usage: $PROGNAME {setup|status|restart}"
+  echo "usage: $PROGNAME {setup|status|disconnect|delete}"
 }
 
 case "$1" in
@@ -53,9 +74,11 @@ case "$1" in
 'status')
         status
         ;;
-'restart')
-        stop
-        start
+'delete')
+	delete
+        ;;
+'disconnect')
+	disconnect
         ;;
 *)
         usage
