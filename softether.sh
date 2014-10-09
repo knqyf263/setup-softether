@@ -14,11 +14,11 @@
 PROGNAME=`basename $0`
 BASEDIR=`dirname $0`
 
+. $BASEDIR/vpn.conf
 
 setup() {
     echo "Starting..."
 
-    . $BASEDIR/vpn.conf
 
     cat << EOF > $BASEDIR/setup.txt
 NicCreate $NIC
@@ -29,8 +29,8 @@ AccountConnect $ACCOUNT
 AccountList
 EOF
 
-    /usr/local/vpnclient/vpncmd /client localhost /in:$BASEDIR/setup.txt
-    rm $BASEDIR/setup.txt
+    /usr/local/vpnclient/vpncmd /client localhost /in:$BASEDIR/batch.txt
+    rm $BASEDIR/batch.txt
 }
 
 status() {
@@ -38,8 +38,8 @@ status() {
 NicList
 AccountList
 EOF
-    /usr/local/vpnclient/vpncmd /client localhost /in:$BASEDIR/status.txt
-    rm $BASEDIR/status.txt
+    /usr/local/vpnclient/vpncmd /client localhost /in:$BASEDIR/batch.txt
+    rm $BASEDIR/batch.txt
 }
 
 disconnect() {
