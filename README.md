@@ -70,5 +70,57 @@ vpn.confの中身を自分の環境に応じて書き換えます。
 setupを渡せばsetupされます。  
 
     $ ./softether.sh setup
+    Starting...
+    The commands written in the file "./setup.txt" will be used instead of input from keyboard.
+    vpncmd command - SoftEther VPN Command Line Management Utility
+    SoftEther VPN Command Line Management Utility (vpncmd command)
+    Version 4.10 Build 9505   (English)
+    Compiled 2014/10/03 18:26:16 by yagi at pc25
+    Copyright (c) SoftEther VPN Project. All Rights Reserved.
     
-  
+    Connected to VPN Client "localhost".
+    
+    VPN Client>NicCreate testnic
+    NicCreate command - Create New Virtual Network Adapter
+    
+    VPN Client>NicList
+    NicList command - Get List of Virtual Network Adapters
+    Item                        |Value
+    ----------------------------+-----------------------------------
+    Virtual Network Adapter Name|testnic
+    Status                      |Enabled
+    MAC Address                 |00AC5B6D236F
+    Version                     |Version 4.10 Build 9505   (English)
+    The command completed successfully.
+    
+    
+    （途中省略）
+
+    VPN Client>AccountList
+    AccountList command - Get List of VPN Connection Settings
+    Item                        |Value
+    ----------------------------+----------------------------------------------------
+    VPN Connection Setting Name |test
+    Status                      |Connecting
+    VPN Server Hostname         |example.com:443 (Direct TCP/IP Connection)
+    Virtual Hub                 |DEFAULT
+    Virtual Network Adapter Name|testnic
+    The command completed successfully.
+
+こんな感じになっていたらOKです。  
+StatusがConnectingだと思うので、再度Statusを確認してConnectedになっていればOKです。
+
+    $ ./softether.sh status
+    VPN Client>AccountList
+    AccountList command - Get List of VPN Connection Settings
+    Item                        |Value
+    ----------------------------+----------------------------------------------------
+    VPN Connection Setting Name |test
+    Status                      |Connected
+    VPN Server Hostname         |example.com:443 (Direct TCP/IP Connection)
+    Virtual Hub                 |DEFAULT
+    Virtual Network Adapter Name|testnic
+    The command completed successfully.
+
+切断したい場合はdisconnect、設定を消したい場合はdeleteを渡せば出来ます。
+
